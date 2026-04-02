@@ -1,34 +1,3 @@
-"""
-Real-Time Messaging Platform Backend
-Handles user sessions, message routing, group chats,
-file attachments, encryption, and notification delivery.
-"""
-
-import asyncio
-import json
-import hashlib
-import hmac
-import base64
-import secrets
-import time
-import uuid
-import re
-import os
-import logging
-from datetime import datetime, timedelta, timezone
-from typing import Optional, List, Dict, Set, Tuple, Any, Callable
-from dataclasses import dataclass, field
-from enum import Enum, auto
-from collections import defaultdict, OrderedDict
-from weakref import WeakValueDictionary
-from contextlib import asynccontextmanager
-from functools import wraps
-import struct
-import zlib
-
-logger = logging.getLogger(__name__)
-
-
 # ─── Enums ────────────────────────────────────────────────────────────
 
 class MessageType(Enum):
