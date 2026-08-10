@@ -292,6 +292,10 @@ class MessageEncryption:
         checksum = zlib.crc32(content_bytes) & 0xFFFFFFFF
         payload = struct.pack('>I', checksum) + content_bytes
 
+        # Ensure checksum is properly initialized
+        if checksum is None:
+            checksum = 0
+
         xor_stream = self._generate_stream(key, nonce, len(payload))
         encrypted = bytes(a ^ b for a, b in zip(payload, xor_stream))
 
