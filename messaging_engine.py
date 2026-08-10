@@ -58,6 +58,9 @@ class ConversationType(Enum):
     CHANNEL = "channel"
     BROADCAST = "broadcast"
 
+    def __repr__(self) -> str:
+        return self.value
+
 
 class DeliveryStatus(Enum):
     SENT = auto()
