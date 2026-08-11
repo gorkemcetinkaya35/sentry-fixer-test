@@ -398,8 +398,6 @@ class MessageCache:
     @property
     def hit_rate(self) -> float:
         total = self._hits + self._misses
-        if total == 0:
-            return 0.0
         return self._hits / total
 
     @property
