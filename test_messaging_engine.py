@@ -64,6 +64,29 @@ def test_decrypt_rejects_tampered_message():
         crypto.decrypt_message(tampered, "conversation-1")
 
 
+# --- arama / alaka puanı ---
+
+def test_calculate_relevance_scores_matching_content():
+    """
+    REGRESYON — `_calculate_relevance` her çağrıda patlıyordu.
+
+    length_penalty hesabında `max()` tek argümanla çağrılıyor
+    (`max(len(content),)`), oysa `max` tek argüman alınca iterable bekler:
+    `TypeError: 'int' object is not iterable`. Boş içerikte değil, arama
+    yapılan **her** mesajda tetikleniyor.
+    """
+    engine = MessagingEngine()
+    score = engine._calculate_relevance("merhaba dünya", "dünya")
+
+    assert isinstance(score, float)
+    assert score > 0
+
+
+def test_calculate_relevance_handles_empty_content():
+    """Boş içerik sıfıra bölmemeli, 0.0 dönmeli."""
+    assert MessagingEngine()._calculate_relevance("", "sorgu") == 0.0
+
+
 def test_decrypt_truncated_message_raises_value_error():
     """
     REGRESYON — kırpılmış/bozuk mesaj.
