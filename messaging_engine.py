@@ -1031,6 +1031,9 @@ class MessagingEngine:
                 continue
 
             messages = self._messages.get(conv_id, {})
+            if not isinstance(messages, dict):
+                messages = {}
+
             for msg in messages.values():
                 if msg.deleted:
                     continue
