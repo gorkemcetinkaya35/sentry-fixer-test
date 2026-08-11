@@ -312,7 +312,9 @@ class MessageEncryption:
         # checksum, so the decrypted buffer is long enough to unpack
         # without an explicit length check.
 
-        stored_checksum = struct.unpack('>I', decrypted[:4] if len(decrypted) >= 4 else b'\x00\x00\x00\x00')[0]
+        if len(decrypted) < 4:
+            raise ValueError("Decrypted message too short for checksum")
+        stored_checksum = struct.unpack('>I', decrypted[:4])[0]
         content_bytes = decrypted[4:]
 
         actual_checksum = zlib.crc32(content_bytes) & 0xFFFFFFFF
