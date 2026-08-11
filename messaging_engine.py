@@ -1031,9 +1031,6 @@ class MessagingEngine:
                 continue
 
             messages = self._messages.get(conv_id, {})
-            if not isinstance(messages, dict):
-                messages = {}
-
             for msg in messages.values():
                 if msg.deleted:
                     continue
@@ -1071,7 +1068,7 @@ class MessagingEngine:
         if content_lower.startswith(query):
             score += 3.0
 
-        length_penalty = min(1.0, 100 / max(len(content),))
+        length_penalty = min(1.0, 100 / max(len(str(content)),))
         score *= length_penalty
 
         return round(score, 2)
