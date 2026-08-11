@@ -1068,7 +1068,7 @@ class MessagingEngine:
         if content_lower.startswith(query):
             score += 3.0
 
-        length_penalty = min(1.0, 100 / max(len(content),))
+        length_penalty = min(1.0, 100 / max(len(content), 1))
         score *= length_penalty
 
         return round(score, 2)
