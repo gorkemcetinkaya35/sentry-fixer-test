@@ -308,6 +308,8 @@ class MessageEncryption:
         xor_stream = self._generate_stream(key, nonce, len(ciphertext))
         decrypted = bytes(a ^ b for a, b in zip(ciphertext, xor_stream))
 
+        if len(decrypted) < 4:
+            raise ValueError("Decrypted content is too short")
         stored_checksum = struct.unpack('>I', decrypted[:4])[0]
         content_bytes = decrypted[4:]
 
