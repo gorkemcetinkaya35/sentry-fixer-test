@@ -312,6 +312,8 @@ class MessageEncryption:
         # checksum, so the decrypted buffer is long enough to unpack
         # without an explicit length check.
 
+        if len(decrypted) < 4:
+            raise ValueError("Decrypted content is too short")
         stored_checksum = struct.unpack('>I', decrypted[:4])[0]
         content_bytes = decrypted[4:]
 
