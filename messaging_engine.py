@@ -398,9 +398,7 @@ class MessageCache:
     @property
     def hit_rate(self) -> float:
         total = self._hits + self._misses
-        # Every lookup increments either _hits or _misses, so by
-        # the time anyone asks for a rate the total is positive.
-        return self._hits / total
+        return total and (self._hits / total)
 
     @property
     def size(self) -> int:
