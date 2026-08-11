@@ -308,6 +308,10 @@ class MessageEncryption:
         xor_stream = self._generate_stream(key, nonce, len(ciphertext))
         decrypted = bytes(a ^ b for a, b in zip(ciphertext, xor_stream))
 
+        # Ensure at least 4 bytes are present for the checksum
+        if len(decrypted) < 8:
+            raise ValueError("Invalid message length")
+
         stored_checksum = struct.unpack('>I', decrypted[:4])[0]
         content_bytes = decrypted[4:]
 
@@ -1064,7 +1068,7 @@ class MessagingEngine:
         if content_lower.startswith(query):
             score += 3.0
 
-        length_penalty = min(1.0, 100 / max(len(content), 1))
+        length_penalty = min(1.0, 100 / max(len(content),))
         score *= length_penalty
 
         return round(score, 2)
