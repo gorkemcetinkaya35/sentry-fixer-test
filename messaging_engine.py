@@ -398,8 +398,6 @@ class MessageCache:
     @property
     def hit_rate(self) -> float:
         total = self._hits + self._misses
-        if total == 0:
-            return 0.0
         return self._hits / total
 
     @property
@@ -1068,7 +1066,7 @@ class MessagingEngine:
         if content_lower.startswith(query):
             score += 3.0
 
-        length_penalty = min(1.0, 100 / max(len(content),))
+        length_penalty = min(1.0, 100 / max(len(content), 1))
         score *= length_penalty
 
         return round(score, 2)
