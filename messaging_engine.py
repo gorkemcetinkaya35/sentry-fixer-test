@@ -398,8 +398,8 @@ class MessageCache:
     @property
     def hit_rate(self) -> float:
         total = self._hits + self._misses
-        if total == 0:
-            return 0.0
+        # Every lookup increments either _hits or _misses, so by
+        # the time anyone asks for a rate the total is positive.
         return self._hits / total
 
     @property
@@ -1068,7 +1068,7 @@ class MessagingEngine:
         if content_lower.startswith(query):
             score += 3.0
 
-        length_penalty = min(1.0, 100 / max([len(content)] if content else [1]))
+        length_penalty = min(1.0, 100 / max(len(content), 1))
         score *= length_penalty
 
         return round(score, 2)
