@@ -400,7 +400,7 @@ class MessageCache:
         total = self._hits + self._misses
         # Every lookup increments either _hits or _misses, so by
         # the time anyone asks for a rate the total is positive.
-        return self._hits / total
+        return self._hits / total if total != 0 else 0.0
 
     @property
     def size(self) -> int:
